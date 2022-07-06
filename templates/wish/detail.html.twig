@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h2>Détails d'un wish... Titre de l'idée ici !</h2>
+    <h2>{{ wish.title }}</h2>
+    <p class="wish-credit">Created by {{ wish.author }} on {{ wish.dateCreated|date('Y-m-d') }}</p>
+    <div>{{ wish.description|nl2br }}</div>
 {% endblock %}
+
 {% block title %}Titre de l'idée ici ! | {{ parent() }}{% endblock %}

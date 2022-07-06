@@ -20,7 +20,9 @@ class MainController extends AbstractController
      */
     public function about(): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->render('main/about_us.html.twig');
+        $rawData = file_get_contents("../data/team.json");
+        $teamMembers = json_decode($rawData, true);
+        return $this->render('main/about_us.html.twig', ['teamMembers' => $teamMembers]);
     }
 
 }

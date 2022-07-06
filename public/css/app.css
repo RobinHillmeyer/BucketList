@@ -52,3 +52,13 @@ footer {
 main h2 {
     margin-top: 0;
 }
+main a {
+    color: #8c6956;
+}
+.wishes-list article {
+    margin-bottom: 0.5rem;
+}
+.wish-credit {
+    font-size: 0.9rem;
+    font-style: italic;
+}

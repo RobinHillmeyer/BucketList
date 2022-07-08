@@ -39,6 +39,18 @@ class WishRepository extends ServiceEntityRepository
         }
     }
 
+    public function findPublishedWishesWithCategories(): ?array
+    {
+
+        $queryBuilder = $this->createQueryBuilder('w');
+        $queryBuilder->join('w.category', 'c')
+            ->addSelect('c');
+        $queryBuilder->andWhere('w.isPublished = 1');
+        $queryBuilder->orderBy('w.dateCreated', 'DESC');
+        $query = $queryBuilder->getQuery();
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Wish[] Returns an array of Wish objects
 //     */

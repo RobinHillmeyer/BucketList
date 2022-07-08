@@ -19,17 +19,33 @@
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1 class="header-logo">
-                <a href="{{ path('main_home') }}" title="Go back to homepage"><img src="{{ asset('img/logo.svg') }}" alt="Bucket-List Logo">Bucket-List</a>
-            </h1>
-            <nav class="header-nav">
-                <a href="{{ path('main_home') }}" title="Go back to homepage">Home</a>
-                <a href="{{ path('wish_list') }}" title="All things to do">All wishes</a>
-                <a href="{{ path('wish_create') }}" title="Add your own ideas!">Add yours!</a>
-                <a href="{{ path('main_about_us') }}" title="About us">About us</a>
-            </nav>
-        </div>
+        <header>
+            <div class="container">
+                <div class="header-top">
+                    <h1 class="header-logo">
+                        <a href="{{ path('main_home') }}" title="Go back to homepage">
+                            <img src="{{ asset('img/logo.svg') }}" alt="Bucket-List Logo">Bucket-List
+                        </a>
+                    </h1>
+                    <nav class="user-nav">
+                        {% if app.user %}
+                            <a href="{{ path('app_logout') }}" title="Logout">Logout ||Hello {{ app.user.userIdentifier }}||</a>
+                        {% else %}
+                            <a href="{{ path('app_register') }}" title="Create your account">Register</a>
+                            <a href="{{ path('app_login') }}" title="Login">Login</a>
+                        {% endif %}
+                    </nav>
+                </div>
+                <nav class="header-nav">
+                    <a href="{{ path('main_home') }}" title="Go back to homepage">Home</a>
+                    <a href="{{ path('wish_list') }}" title="All things to do">All wishes</a>
+                    {% if app.user %}
+                        <a href="{{ path('wish_create') }}" title="Add your own ideas!">Add yours!</a>
+                    {% endif %}
+                    <a href="{{ path('main_about_us') }}" title="About us">About us</a>
+                </nav>
+            </div>
+        </header>
     </header>
 
     {% for label, messages in app.flashes %}

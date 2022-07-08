@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Wish;
 use App\Form\WishType;
 use App\Repository\WishRepository;
+use App\Util\Censurator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ class WishController extends AbstractController
      */
     public function list(WishRepository $wishRepository): Response
     {
-        $wishes = $wishRepository->findBy(['isPublished' => true], ['dateCreated' => 'DESC']);
+        $wishes = $wishRepository->findPublishedWishesWithCategories();
         return $this->render('wish/list.html.twig', [
             "wishes" => $wishes
         ]);
@@ -40,15 +41,19 @@ class WishController extends AbstractController
     /**
      * @Route("/wishes/create", name="wish_create")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, Censurator $censurator): Response
     {
         $wish = new Wish();
+        $currentUsername = $this->getUser()->getUserIdentifier();
+        $wish->setAuthor($currentUsername);
         $wishForm = $this->createForm(WishType::class, $wish);
         $wishForm->handleRequest($request);
 
         if ($wishForm->isSubmitted() && $wishForm->isValid()){
             $wish->setIsPublished(true);
             $wish->setDateCreated(new \DateTime());
+            $wish->setDescription($censurator->purify($wish->getDescription()));
+
             $entityManager->persist($wish);
             $entityManager->flush();
             $this->addFlash('success', 'Idea successfully added!');

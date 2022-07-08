@@ -80,12 +80,24 @@ main a {
 label {
     display: block;
 }
-input, textarea {
-    box-sizing: border-box;
-    width: 50%;
-    margin-bottom: 1rem;
-}
 button {
     padding: 0.5rem 0.7rem;
     font-family: inherit;
+}
+input, textarea, select {
+    box-sizing: border-box;
+    width: 50%;
+    padding: 0.2rem 0.5rem;
+    margin-bottom: 1rem;
+}
+.header-top {
+    display: flex;
+    justify-content: space-between;
+}
+.user-nav a {
+    margin-left: 1rem;
+}
+header h1 {
+    flex: 1;
+    margin: 0 0 10px 0;
 }
